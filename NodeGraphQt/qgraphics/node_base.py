@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from collections import OrderedDict
 
-from Qt import QtGui, QtCore, QtWidgets
+from PySide6 import QtGui, QtCore, QtWidgets
 
 from NodeGraphQt.constants import (
     ITEM_CACHE_MODE,
@@ -34,11 +34,11 @@ class NodeItem(AbstractNodeItem):
         if pixmap.size().height() > NodeEnum.ICON_SIZE.value:
             pixmap = pixmap.scaledToHeight(
                 NodeEnum.ICON_SIZE.value,
-                QtCore.Qt.SmoothTransformation
+                QtCore.Qt.TransformationMode.SmoothTransformation
             )
         self._properties['icon'] = ICON_NODE_BASE
         self._icon_item = QtWidgets.QGraphicsPixmapItem(pixmap, self)
-        self._icon_item.setTransformationMode(QtCore.Qt.SmoothTransformation)
+        self._icon_item.setTransformationMode(QtCore.Qt.TransformationMode.SmoothTransformation)
         self._text_item = NodeTextItem(self.name, self)
         self._x_item = XDisabledItem(self, 'DISABLED')
         self._input_items = OrderedDict()
@@ -69,8 +69,8 @@ class NodeItem(AbstractNodeItem):
 
     def _paint_horizontal(self, painter, option, widget):
         painter.save()
-        painter.setPen(QtCore.Qt.NoPen)
-        painter.setBrush(QtCore.Qt.NoBrush)
+        painter.setPen(QtCore.Qt.PenStyle.NoPen)
+        painter.setBrush(QtCore.Qt.BrushStyle.NoBrush)
 
         # base background.
         margin = 1.0
@@ -119,7 +119,7 @@ class NodeItem(AbstractNodeItem):
         pen.setCosmetic(self.viewer().get_zoom() < 0.0)
         path = QtGui.QPainterPath()
         path.addRoundedRect(border_rect, radius, radius)
-        painter.setBrush(QtCore.Qt.NoBrush)
+        painter.setBrush(QtCore.Qt.BrushStyle.NoBrush)
         painter.setPen(pen)
         painter.drawPath(path)
 
@@ -127,8 +127,8 @@ class NodeItem(AbstractNodeItem):
 
     def _paint_vertical(self, painter, option, widget):
         painter.save()
-        painter.setPen(QtCore.Qt.NoPen)
-        painter.setBrush(QtCore.Qt.NoBrush)
+        painter.setPen(QtCore.Qt.PenStyle.NoPen)
+        painter.setBrush(QtCore.Qt.BrushStyle.NoBrush)
 
         # base background.
         margin = 1.0
@@ -258,7 +258,7 @@ class NodeItem(AbstractNodeItem):
             change:
             value:
         """
-        if change == self.ItemSelectedChange and self.scene():
+        if change == self.GraphicsItemChange.ItemSelectedChange and self.scene():
             self.reset_pipes()
             if value:
                 self.highlight_pipes()

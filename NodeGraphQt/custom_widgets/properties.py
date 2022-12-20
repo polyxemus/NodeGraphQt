@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from collections import defaultdict
 
-from Qt import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 
 from NodeGraphQt.constants import (NODE_PROP_QLABEL,
                                    NODE_PROP_QLINEEDIT,
@@ -402,7 +402,7 @@ class _ValueMenu(QtWidgets.QMenu):
             self._add_action(step)
 
     def _add_action(self, step):
-        action = QtWidgets.QAction(str(step), self)
+        action = QtGui.QAction(str(step), self)
         action.step = step
         self.addAction(action)
 
